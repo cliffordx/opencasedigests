@@ -1,0 +1,60 @@
+syntax = "proto3";
+package casedigestor.attestations.v1;
+
+option go_package = "github.com/bettergovph/govchain/chain/x/attestations/types";
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+// Service defining state-changing transactions for case digests & peer reviews
+service Msg {
+  rpc SubmitDigestDraft(MsgSubmitDigestDraft) returns (MsgSubmitDigestDraftResponse);
+  rpc AttestDigest(MsgAttestDigest) returns (MsgAttestDigestResponse);
+  rpc LinkSubsequentRuling(MsgLinkSubsequentRuling) returns (MsgLinkSubsequentRulingResponse);
+}
+
+enum DigestStage {
+  DIGEST_STAGE_UNSPECIFIED = 0;
+  DIGEST_STAGE_AI_DRAFT = 1;
+  DIGEST_STAGE_COMMUNITY_REVIEW = 2;
+  DIGEST_STAGE_BAR_ATTESTED = 3;
+  DIGEST_STAGE_MODIFIED_OR_ABANDONED = 4;
+}
+
+// 1. Initial AI or Contributor submission anchoring JSON on IPFS
+message MsgSubmitDigestDraft {
+  string creator = 1;                // Bech32 address of submitter / AI coordinator
+  string gr_number = 2;              // Supreme Court Docket Number (e.g., "G.R. No. 212345")
+  string ipfs_cid = 3;               // Content-addressed IPFS CIDv1 of structured digest JSON
+  string sha256_checksum = 4;        // Hex-encoded SHA-256 hash of raw file bytes
+}
+message MsgSubmitDigestDraftResponse {
+  string digest_id = 1;
+  DigestStage current_stage = 2;
+}
+
+// 2. Verified Attorney / Counsel peer-attestation ("Proof-of-Doctrine")
+message MsgAttestDigest {
+  string attorney = 1;               // Bech32 address of verified lawyer (must hold ROLE_COUNSEL_REVIEWER)
+  string digest_id = 2;
+  uint32 doctrine_accuracy_score = 3; // Rubric score 1-5
+  uint32 citation_integrity_score = 4;// Rubric score 1-5
+  string review_notes_ipfs_cid = 5;   // Optional IPFS CID containing peer review critique
+}
+message MsgAttestDigestResponse {
+  string digest_id = 1;
+  DigestStage updated_stage = 2;
+  uint32 total_attestations = 3;
+}
+
+// 3. Linking subsequent En Banc rulings that affirm, modify, or abandon doctrine
+message MsgLinkSubsequentRuling {
+  string author = 1;
+  string target_digest_id = 2;        // The older doctrine being evaluated
+  string superseding_gr_number = 3;   // The newer SC decision (e.g., "G.R. No. 298765")
+  string relational_status = 4;       // "AFFIRMS", "DISTINGUISHES", "MODIFIES", or "ABANDONED"
+  string ipfs_proof_cid = 5;          // IPFS CID containing legal analysis of the doctrinal shift
+}
+message MsgLinkSubsequentRulingResponse {
+  string status = 1;
+}
