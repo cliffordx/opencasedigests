@@ -1,0 +1,59 @@
+syntax = "proto3";
+package casedigestor.jurisprudence.v1;
+
+option go_package = "github.com/cliffordx/opencasedigests/chain/x/jurisprudence/types";
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "casedigestor/jurisprudence/v1/decision.proto";
+
+// Msg defines the jurisprudence module's state-changing transaction service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // AnchorDecision records a Supreme Court decision's IPFS CID and
+  // SHA-256 checksum on-chain, establishing tamper-evident provenance.
+  rpc AnchorDecision(MsgAnchorDecision) returns (MsgAnchorDecisionResponse);
+}
+
+// MsgAnchorDecision anchors a Philippine Supreme Court decision on-chain.
+// Only authorized anchoring authorities may submit this message directly;
+// other users must wrap it inside a cosmos.authz.v1beta1.MsgExec.
+message MsgAnchorDecision {
+  option (cosmos.msg.v1.signer) = "authority";
+
+  // Bech32 address of the anchoring authority
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // Supreme Court docket number (e.g., "G.R. No. 212345")
+  string gr_number = 2;
+
+  // Short title of the decision
+  string title = 3;
+
+  // Official promulgation date
+  google.protobuf.Timestamp promulgation_date = 4 [(gogoproto.nullable) = false, (gogoproto.stdtime) = true];
+
+  // Division or En Banc designation
+  string division_or_enbanc = 5;
+
+  // Ponente (authoring Justice)
+  string ponente = 6;
+
+  // IPFS CIDv1 of the canonical decision document
+  string ipfs_cid = 7;
+
+  // Hex-encoded SHA-256 checksum of the pinned file (64 lowercase hex chars)
+  string sha256_checksum = 8;
+}
+
+// MsgAnchorDecisionResponse is returned after a successful decision anchoring.
+message MsgAnchorDecisionResponse {
+  // The G.R. number that was anchored
+  string gr_number = 1;
+
+  // Block height at which the anchoring was recorded
+  int64 block_height = 2;
+}

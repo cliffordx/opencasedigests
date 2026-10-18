@@ -1,0 +1,52 @@
+syntax = "proto3";
+package casedigestor.jurisprudence.v1;
+
+option go_package = "github.com/cliffordx/opencasedigests/chain/x/jurisprudence/types";
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+import "cosmos_proto/cosmos.proto";
+
+// SupremeCourtDecision represents an official Philippine Supreme Court promulgation
+// anchored on-chain via its IPFS CIDv1 content address and SHA-256 checksum.
+// No full text or PII is ever stored on-chain.
+message SupremeCourtDecision {
+  // Unique Supreme Court docket number (e.g., "G.R. No. 212345")
+  string gr_number = 1;
+
+  // Short title of the decision (e.g., "People v. Dela Cruz")
+  string title = 2;
+
+  // Official date of promulgation by the Supreme Court
+  google.protobuf.Timestamp promulgation_date = 3 [(gogoproto.nullable) = false, (gogoproto.stdtime) = true];
+
+  // Whether decided by a Division or En Banc
+  // Values: "FIRST_DIVISION", "SECOND_DIVISION", "THIRD_DIVISION", "EN_BANC"
+  string division_or_enbanc = 4;
+
+  // Name of the ponente (Justice who wrote the decision)
+  string ponente = 5;
+
+  // IPFS CIDv1 of the canonical decision document (PDF or structured JSON)
+  string ipfs_cid = 6;
+
+  // Hex-encoded SHA-256 checksum of the raw file bytes pinned to IPFS
+  // Must be exactly 64 lowercase hexadecimal characters
+  string sha256_checksum = 7;
+
+  // Bech32 address of the authority that anchored this decision on-chain
+  string anchored_by = 8 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // Block height at which this decision was anchored
+  int64 block_height = 9;
+}
+
+// EventDecisionAnchored is emitted when a Supreme Court decision is
+// successfully anchored on-chain with its IPFS CID and SHA-256 checksum.
+message EventDecisionAnchored {
+  string gr_number = 1;
+  string ipfs_cid = 2;
+  string sha256_checksum = 3;
+  string anchored_by = 4;
+  int64 block_height = 5;
+}

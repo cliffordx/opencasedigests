@@ -1,3 +1,75 @@
+# ==========================
+# Case Digestor Protocol
+# ==========================
+
+# ---- Project-specific ----
 docs/initial-research.md
 .AI_INSTRUCTIONS.md
 AGENTS.md
+
+# ---- Go / Cosmos SDK ----
+build/
+dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# ---- CometBFT / Ignite CLI local state ----
+.casedigestord/
+.ignite/
+release/
+
+# ---- Python ----
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+.eggs/
+dist/
+build/
+*.whl
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+*.cover
+
+# ---- Environment / Secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- Rust / CosmWasm ----
+target/
+Cargo.lock
+*.swp
+
+# ---- Node / Next.js ----
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+.vercel/
+
+# ---- IDEs & Editors ----
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ---- IPFS local data ----
+.ipfs/

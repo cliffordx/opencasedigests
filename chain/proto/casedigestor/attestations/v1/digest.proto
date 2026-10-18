@@ -1,0 +1,135 @@
+syntax = "proto3";
+package casedigestor.attestations.v1;
+
+option go_package = "github.com/cliffordx/opencasedigests/chain/x/attestations/types";
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+import "cosmos_proto/cosmos.proto";
+
+// DigestStage represents the lifecycle stage of a case digest
+// as it progresses through the Proof-of-Doctrine peer-review process.
+enum DigestStage {
+  DIGEST_STAGE_UNSPECIFIED = 0;
+  DIGEST_STAGE_AI_DRAFT = 1;
+  DIGEST_STAGE_COMMUNITY_REVIEW = 2;
+  DIGEST_STAGE_BAR_ATTESTED = 3;
+  DIGEST_STAGE_MODIFIED_OR_ABANDONED = 4;
+}
+
+// CitationRelation describes how a subsequent ruling relates to an existing doctrine.
+enum CitationRelation {
+  CITATION_RELATION_UNSPECIFIED = 0;
+  CITATION_RELATION_AFFIRMS = 1;
+  CITATION_RELATION_DISTINGUISHES = 2;
+  CITATION_RELATION_MODIFIES = 3;
+  CITATION_RELATION_ABANDONED = 4;
+}
+
+// DigestRecord stores the on-chain metadata for a case digest.
+// Full digest text is stored on IPFS; only the CID and checksum are on-chain.
+message DigestRecord {
+  // Unique digest identifier (derived from gr_number + version)
+  string digest_id = 1;
+
+  // The Supreme Court G.R. number this digest covers
+  string gr_number = 2;
+
+  // Current lifecycle stage
+  DigestStage current_stage = 3;
+
+  // IPFS CIDv1 of the latest digest JSON
+  string ipfs_cid = 4;
+
+  // Hex-encoded SHA-256 checksum of the digest file bytes
+  string sha256_checksum = 5;
+
+  // Bech32 address of the original submitter
+  string submitted_by = 6 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // Timestamp when the digest was first submitted
+  google.protobuf.Timestamp submitted_at = 7 [(gogoproto.nullable) = false, (gogoproto.stdtime) = true];
+
+  // Total number of peer attestations received
+  uint32 attestation_count = 8;
+
+  // Bech32 address of the last curator who revised the digest (empty if none)
+  string last_revised_by = 9 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // IPFS CIDv1 of the latest curator revision (empty if never revised)
+  string revision_ipfs_cid = 10;
+}
+
+// PeerAttestation records a single attorney's review and rubric scores
+// for a specific digest. Stored on-chain for provenance; detailed notes on IPFS.
+message PeerAttestation {
+  // Bech32 address of the attesting attorney
+  string attorney = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // The digest being attested
+  string digest_id = 2;
+
+  // Rubric score for doctrinal accuracy (1-5)
+  uint32 doctrine_accuracy_score = 3;
+
+  // Rubric score for citation integrity (1-5)
+  uint32 citation_integrity_score = 4;
+
+  // Optional IPFS CID of detailed review notes
+  string review_notes_ipfs_cid = 5;
+
+  // Timestamp of the attestation
+  google.protobuf.Timestamp attested_at = 6 [(gogoproto.nullable) = false, (gogoproto.stdtime) = true];
+}
+
+// CitationEdge represents a directed relationship between two Supreme Court
+// decisions, capturing how a newer ruling affects an older doctrine.
+message CitationEdge {
+  // Bech32 address of the contributor who created this edge
+  string author = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // Digest ID of the older doctrine being evaluated
+  string target_digest_id = 2;
+
+  // G.R. number of the newer, superseding decision
+  string superseding_gr_number = 3;
+
+  // How the newer ruling relates to the older doctrine
+  CitationRelation relation = 4;
+
+  // IPFS CID of the legal analysis supporting this citation edge
+  string ipfs_proof_cid = 5;
+
+  // Timestamp when the citation edge was created
+  google.protobuf.Timestamp linked_at = 6 [(gogoproto.nullable) = false, (gogoproto.stdtime) = true];
+}
+
+// ----- Events -----
+
+// EventDigestSubmitted is emitted when a new digest draft is submitted.
+message EventDigestSubmitted {
+  string digest_id = 1;
+  string gr_number = 2;
+  string ipfs_cid = 3;
+  string sha256_checksum = 4;
+  string submitted_by = 5;
+  DigestStage stage = 6;
+}
+
+// EventDigestAttested is emitted when an attorney provides a peer attestation.
+message EventDigestAttested {
+  string digest_id = 1;
+  string attorney = 2;
+  uint32 doctrine_accuracy_score = 3;
+  uint32 citation_integrity_score = 4;
+  DigestStage updated_stage = 5;
+  uint32 total_attestations = 6;
+}
+
+// EventCitationLinked is emitted when a citation edge is created between decisions.
+message EventCitationLinked {
+  string target_digest_id = 1;
+  string superseding_gr_number = 2;
+  CitationRelation relation = 3;
+  string author = 4;
+}
