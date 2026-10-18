@@ -73,3 +73,6 @@ Thumbs.db
 
 # ---- IPFS local data ----
 .ipfs/
+
+# ---- Testnet local runtime data ----
+deploy/testnet/data/

@@ -38,7 +38,7 @@ The protocol directly supports the principles outlined in the **Supreme Court of
 - [x] **Zero-Gas Ante Decorator:** Enforce gasless user execution via `cosmos.authz.v1beta1.MsgExec` unwrapping and a 500k gas ceiling.
 - [x] **FastAPI & Kubo IPFS Indexer:** Implement RFC 8785 canonical JSON serialization, SHA-256 verification, and CometBFT WebSocket listener.
 - [x] **Gasless Signing SDK:** Create TypeScript client helpers for sponsored signing in `web/lib/chain/gasless-tx.ts`.
-- [ ] **3-Node Testnet Cluster:** Deploy institutional testnet with 3 seed validators in a private testing consortium.
+- [x] **3-Node Testnet Cluster:** Deploy institutional testnet with 3 seed validators in a private testing consortium.
 
 **Key Milestone Indicator (KMI):** 1,000 historical Supreme Court en banc decisions anchored on testnet with verifiable IPFS CIDv1 addresses and SHA-256 checksums.
 

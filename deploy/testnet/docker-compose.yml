@@ -1,0 +1,68 @@
+services:
+  validator0:
+    build:
+      context: ../../
+      dockerfile: deploy/testnet/Dockerfile
+    container_name: casedigestor-val0-uplaw
+    restart: unless-stopped
+    command: ["start", "--home", "/root/.casedigestord"]
+    volumes:
+      - ./data/node0:/root/.casedigestord
+    ports:
+      - "26657:26657"
+      - "26656:26656"
+    networks:
+      casedigestor-consortium:
+        ipv4_address: 172.28.0.10
+
+  validator1:
+    build:
+      context: ../../
+      dockerfile: deploy/testnet/Dockerfile
+    container_name: casedigestor-val1-ateneolaw
+    restart: unless-stopped
+    command: ["start", "--home", "/root/.casedigestord"]
+    volumes:
+      - ./data/node1:/root/.casedigestord
+    ports:
+      - "26667:26657"
+      - "26666:26656"
+    networks:
+      casedigestor-consortium:
+        ipv4_address: 172.28.0.11
+
+  validator2:
+    build:
+      context: ../../
+      dockerfile: deploy/testnet/Dockerfile
+    container_name: casedigestor-val2-sanbedalaw
+    restart: unless-stopped
+    command: ["start", "--home", "/root/.casedigestord"]
+    volumes:
+      - ./data/node2:/root/.casedigestord
+    ports:
+      - "26677:26657"
+      - "26676:26656"
+    networks:
+      casedigestor-consortium:
+        ipv4_address: 172.28.0.12
+
+  ipfs:
+    image: ipfs/kubo:v0.29.0
+    container_name: casedigestor-ipfs0
+    restart: unless-stopped
+    environment:
+      - LIBP2P_FORCE_PNET=0
+    ports:
+      - "5001:5001"
+      - "8080:8080"
+    networks:
+      casedigestor-consortium:
+        ipv4_address: 172.28.0.20
+
+networks:
+  casedigestor-consortium:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

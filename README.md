@@ -129,7 +129,7 @@ Every digest and attestation is pinned to IPFS and its SHA-256 checksum is ancho
 - [x] FastAPI indexer-worker with IPFS pinning and SHA-256 verification
 - [x] CometBFT WebSocket subscriber for event-driven indexing
 - [x] TypeScript gasless signing helper (`web/lib/chain/`)
-- [ ] Testnet genesis with 3 institutional validators
+- [x] Testnet genesis with 3 institutional validators
 
 ### Phase 1B: PWA Integration & Community Tools (Months 4–6)
 - [ ] Next.js App Router frontend with WebAuthn/Passkey signer
