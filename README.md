@@ -125,10 +125,10 @@ Every digest and attestation is pinned to IPFS and its SHA-256 checksum is ancho
 ### Phase 1A: Hybrid Anchoring Bootstrap (Months 1–3)
 - [x] Repository scaffold and governance documentation
 - [ ] Protobuf schema definitions for `x/jurisprudence` and `x/attestations`
-- [ ] `ZeroGasAgencyDecorator` ante handler
-- [ ] FastAPI indexer-worker with IPFS pinning and SHA-256 verification
-- [ ] CometBFT WebSocket subscriber for event-driven indexing
-- [ ] TypeScript gasless signing helper (`web/lib/chain/`)
+- [x] `ZeroGasAgencyDecorator` ante handler
+- [x] FastAPI indexer-worker with IPFS pinning and SHA-256 verification
+- [x] CometBFT WebSocket subscriber for event-driven indexing
+- [x] TypeScript gasless signing helper (`web/lib/chain/`)
 - [ ] Testnet genesis with 3 institutional validators
 
 ### Phase 1B: PWA Integration & Community Tools (Months 4–6)

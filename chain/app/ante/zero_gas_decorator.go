@@ -13,6 +13,7 @@ import (
 	"fmt"
 
 	"cosmossdk.io/errors"
+	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authztypes "github.com/cosmos/cosmos-sdk/x/authz"
@@ -113,7 +114,7 @@ func (d ZeroGasAgencyDecorator) AnteHandle(
 		gasLimit = MaxZeroFeeGas
 	}
 
-	ctx = ctx.WithGasMeter(sdk.NewGasMeter(gasLimit))
+	ctx = ctx.WithGasMeter(storetypes.NewGasMeter(gasLimit))
 
 	return next(ctx, tx, simulate)
 }
