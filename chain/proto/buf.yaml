@@ -1,13 +1,7 @@
 version: v1
 name: buf.build/cliffordx/casedigestor
-build:
-  roots:
-    - proto
 lint:
   use:
     - DEFAULT
   except:
     - PACKAGE_VERSION_SUFFIX
-breaking:
-  use:
-    - FILE

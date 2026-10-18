@@ -1,0 +1,26 @@
+syntax = "proto3";
+package casedigestor.attestations.v1;
+
+option go_package = "github.com/cliffordx/opencasedigests/chain/x/attestations/types";
+
+import "gogoproto/gogo.proto";
+
+// Params defines the parameters for the attestations module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+
+  // Minimum number of peer attestations required to transition a digest
+  // from COMMUNITY_REVIEW to BAR_ATTESTED stage (default: 2).
+  uint32 min_attestations_for_bar_stage = 1;
+
+  // Minimum rubric score for doctrinal accuracy (out of 5) required
+  // for a qualifying attestation (default: 4).
+  uint32 min_doctrine_accuracy_score = 2;
+
+  // Minimum rubric score for citation integrity (out of 5) required
+  // for a qualifying attestation (default: 4).
+  uint32 min_citation_integrity_score = 3;
+
+  // Maximum allowed length for digest IDs.
+  uint32 max_digest_id_length = 4;
+}

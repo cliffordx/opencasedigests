@@ -1,0 +1,23 @@
+syntax = "proto3";
+package casedigestor.attestations.v1;
+
+option go_package = "github.com/cliffordx/opencasedigests/chain/x/attestations/types";
+
+import "gogoproto/gogo.proto";
+import "casedigestor/attestations/v1/digest.proto";
+import "casedigestor/attestations/v1/params.proto";
+
+// GenesisState defines the attestations module's genesis state.
+message GenesisState {
+  // Module parameters
+  Params params = 1 [(gogoproto.nullable) = false];
+
+  // List of all case digests at genesis
+  repeated DigestRecord digests = 2 [(gogoproto.nullable) = false];
+
+  // List of all peer attestations at genesis
+  repeated PeerAttestation attestations = 3 [(gogoproto.nullable) = false];
+
+  // List of all citation graph edges at genesis
+  repeated CitationEdge citation_edges = 4 [(gogoproto.nullable) = false];
+}

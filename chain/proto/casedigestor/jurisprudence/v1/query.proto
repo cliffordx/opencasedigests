@@ -1,0 +1,75 @@
+syntax = "proto3";
+package casedigestor.jurisprudence.v1;
+
+option go_package = "github.com/cliffordx/opencasedigests/chain/x/jurisprudence/types";
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "casedigestor/jurisprudence/v1/decision.proto";
+import "casedigestor/jurisprudence/v1/params.proto";
+
+// Query defines the gRPC querier service for the jurisprudence module.
+service Query {
+  // Decision queries a single anchored Supreme Court decision by its G.R. number.
+  rpc Decision(QueryDecisionRequest) returns (QueryDecisionResponse) {
+    option (google.api.http).get = "/casedigestor/jurisprudence/v1/decisions/{gr_number}";
+  }
+
+  // Decisions queries all anchored Supreme Court decisions with pagination.
+  rpc Decisions(QueryDecisionsRequest) returns (QueryDecisionsResponse) {
+    option (google.api.http).get = "/casedigestor/jurisprudence/v1/decisions";
+  }
+
+  // DecisionsByPonente queries decisions authored by a specific Justice.
+  rpc DecisionsByPonente(QueryDecisionsByPonenteRequest) returns (QueryDecisionsByPonenteResponse) {
+    option (google.api.http).get = "/casedigestor/jurisprudence/v1/decisions/by_ponente/{ponente}";
+  }
+
+  // Params queries the parameters of the jurisprudence module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/casedigestor/jurisprudence/v1/params";
+  }
+}
+
+// QueryDecisionRequest is the request type for Query/Decision RPC.
+message QueryDecisionRequest {
+  // G.R. number of the decision (e.g., "G.R. No. 212345")
+  string gr_number = 1;
+}
+
+// QueryDecisionResponse is the response type for Query/Decision RPC.
+message QueryDecisionResponse {
+  SupremeCourtDecision decision = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryDecisionsRequest is the request type for Query/Decisions RPC.
+message QueryDecisionsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryDecisionsResponse is the response type for Query/Decisions RPC.
+message QueryDecisionsResponse {
+  repeated SupremeCourtDecision decisions = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryDecisionsByPonenteRequest is the request type for Query/DecisionsByPonente RPC.
+message QueryDecisionsByPonenteRequest {
+  string ponente = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryDecisionsByPonenteResponse is the response type for Query/DecisionsByPonente RPC.
+message QueryDecisionsByPonenteResponse {
+  repeated SupremeCourtDecision decisions = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryParamsRequest is the request type for Query/Params RPC.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for Query/Params RPC.
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}

@@ -1,0 +1,128 @@
+syntax = "proto3";
+package casedigestor.attestations.v1;
+
+option go_package = "github.com/cliffordx/opencasedigests/chain/x/attestations/types";
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "cosmos_proto/cosmos.proto";
+import "casedigestor/attestations/v1/digest.proto";
+import "casedigestor/attestations/v1/params.proto";
+
+// Query defines the gRPC querier service for the attestations module.
+service Query {
+  // Digest queries a single digest record by its unique digest ID.
+  rpc Digest(QueryDigestRequest) returns (QueryDigestResponse) {
+    option (google.api.http).get = "/casedigestor/attestations/v1/digests/{digest_id}";
+  }
+
+  // Digests queries all case digests with pagination and optional stage filtering.
+  rpc Digests(QueryDigestsRequest) returns (QueryDigestsResponse) {
+    option (google.api.http).get = "/casedigestor/attestations/v1/digests";
+  }
+
+  // DigestsByGrNumber queries all digests associated with a specific Supreme Court G.R. number.
+  rpc DigestsByGrNumber(QueryDigestsByGrNumberRequest) returns (QueryDigestsByGrNumberResponse) {
+    option (google.api.http).get = "/casedigestor/attestations/v1/digests/by_gr/{gr_number}";
+  }
+
+  // Attestations queries all peer attestations for a given digest ID.
+  rpc Attestations(QueryAttestationsRequest) returns (QueryAttestationsResponse) {
+    option (google.api.http).get = "/casedigestor/attestations/v1/attestations/{digest_id}";
+  }
+
+  // AttestationsByAttorney queries all attestations authored by a specific attorney.
+  rpc AttestationsByAttorney(QueryAttestationsByAttorneyRequest) returns (QueryAttestationsByAttorneyResponse) {
+    option (google.api.http).get = "/casedigestor/attestations/v1/attestations/by_attorney/{attorney}";
+  }
+
+  // CitationEdges queries all outgoing or incoming citation relationships for a target digest.
+  rpc CitationEdges(QueryCitationEdgesRequest) returns (QueryCitationEdgesResponse) {
+    option (google.api.http).get = "/casedigestor/attestations/v1/citation_edges/{target_digest_id}";
+  }
+
+  // Params queries the parameters of the attestations module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/casedigestor/attestations/v1/params";
+  }
+}
+
+// QueryDigestRequest is the request type for Query/Digest RPC.
+message QueryDigestRequest {
+  string digest_id = 1;
+}
+
+// QueryDigestResponse is the response type for Query/Digest RPC.
+message QueryDigestResponse {
+  DigestRecord digest = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryDigestsRequest is the request type for Query/Digests RPC.
+message QueryDigestsRequest {
+  // Optional filter by lifecycle stage (0 = unspecified/all)
+  DigestStage stage = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryDigestsResponse is the response type for Query/Digests RPC.
+message QueryDigestsResponse {
+  repeated DigestRecord digests = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryDigestsByGrNumberRequest is the request type for Query/DigestsByGrNumber RPC.
+message QueryDigestsByGrNumberRequest {
+  string gr_number = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryDigestsByGrNumberResponse is the response type for Query/DigestsByGrNumber RPC.
+message QueryDigestsByGrNumberResponse {
+  repeated DigestRecord digests = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryAttestationsRequest is the request type for Query/Attestations RPC.
+message QueryAttestationsRequest {
+  string digest_id = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryAttestationsResponse is the response type for Query/Attestations RPC.
+message QueryAttestationsResponse {
+  repeated PeerAttestation attestations = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryAttestationsByAttorneyRequest is the request type for Query/AttestationsByAttorney RPC.
+message QueryAttestationsByAttorneyRequest {
+  string attorney = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryAttestationsByAttorneyResponse is the response type for Query/AttestationsByAttorney RPC.
+message QueryAttestationsByAttorneyResponse {
+  repeated PeerAttestation attestations = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryCitationEdgesRequest is the request type for Query/CitationEdges RPC.
+message QueryCitationEdgesRequest {
+  string target_digest_id = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryCitationEdgesResponse is the response type for Query/CitationEdges RPC.
+message QueryCitationEdgesResponse {
+  repeated CitationEdge edges = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryParamsRequest is the request type for Query/Params RPC.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for Query/Params RPC.
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}

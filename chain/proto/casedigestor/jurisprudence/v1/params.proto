@@ -1,0 +1,22 @@
+syntax = "proto3";
+package casedigestor.jurisprudence.v1;
+
+option go_package = "github.com/cliffordx/opencasedigests/chain/x/jurisprudence/types";
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+// Params defines the parameters for the jurisprudence module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+
+  // List of Bech32 addresses authorized to anchor Supreme Court decisions.
+  // In Phase 1A, this is restricted to verified judicial informatics coordinators.
+  repeated string authorized_anchors = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // Maximum allowed length for case titles to prevent state bloat.
+  uint32 max_title_length = 2;
+
+  // Require canonical SHA-256 validation before committing.
+  bool require_sha256_validation = 3;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package casedigestor.jurisprudence.v1;
+
+option go_package = "github.com/cliffordx/opencasedigests/chain/x/jurisprudence/types";
+
+import "gogoproto/gogo.proto";
+import "casedigestor/jurisprudence/v1/decision.proto";
+import "casedigestor/jurisprudence/v1/params.proto";
+
+// GenesisState defines the jurisprudence module's genesis state.
+message GenesisState {
+  // Module parameters
+  Params params = 1 [(gogoproto.nullable) = false];
+
+  // List of all anchored Supreme Court decisions at genesis
+  repeated SupremeCourtDecision decisions = 2 [(gogoproto.nullable) = false];
+}
