@@ -3,7 +3,7 @@
 # ==========================
 
 # ---- Project-specific ----
-docs/initial-research.md
+docs/research/*
 .AI_INSTRUCTIONS.md
 AGENTS.md
 
