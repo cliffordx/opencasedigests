@@ -17,7 +17,7 @@ The mission is worth testing: make it easier to trace a Philippine legal proposi
 - [Architecture proposal: public releases before federation](docs/ARCHITECTURE_V2_PROPOSAL.md)
 - [Research sources, prior art and evidence limits](docs/SOURCE_REGISTER.md)
 
-The recommendation is a bounded editorial and product pilot, followed by reliable public releases and independent verification. Cosmos/IPFS anchoring remains a conditional experiment. The existing Case Digestor PWA should retain authority over private work, access, billing and annual-edition behavior.
+The recommendation is a bounded editorial and product pilot, followed by reliable public releases and independent verification. Cosmos/IPFS anchoring remains a conditional experiment.
 
 These recommendations do not approve a production migration or change binding repository instructions. The [original architecture](docs/ARCHITECTURE.md) and [validator guide](docs/VALIDATOR_GUIDE.md) remain historical design material with status notices.
 
