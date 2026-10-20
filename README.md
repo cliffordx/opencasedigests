@@ -6,15 +6,12 @@
 
 ## Status — 20 October 2026
 
-This repository is an **experimental prototype and research project**. It is not a production Cosmos application, an independently operated institutional consortium, or a source of certified legal conclusions.
-
-The independent audit found unsigned transaction impersonation, incomplete application-state commitments, duplicate-review promotion, incompatible client/indexer interfaces and missing durable integration. Existing unit tests pass but do not establish the advertised trust properties. See the [audit and reproduced findings](docs/audits/2026-10-20-independent-audit.md) and [verification record](docs/audits/2026-10-20-verification.md).
+This repository is an **experimental prototype and research project**. It is **NOT** a production Cosmos application, **NOT** an independently operated institutional consortium, or a source of certified legal conclusions.
 
 The mission is worth testing: make it easier to trace a Philippine legal proposition to its source, inspect who reviewed which version, understand later treatment and see corrections. A hash verifies bytes; it does not establish legal correctness or judicial authority.
 
 ## Read the current strategy
 
-- [Independent technical, commercial and novelty audit](docs/audits/2026-10-20-independent-audit.md)
 - [Proposed founding manifesto](docs/MANIFESTO.md)
 - [Evidence-gated 36-month roadmap](docs/EXECUTIVE_ROADMAP.md)
 - [Architecture proposal: public releases before federation](docs/ARCHITECTURE_V2_PROPOSAL.md)
@@ -46,8 +43,6 @@ No end user should need cryptocurrency or pay gas. Operating costs and accountab
 ## Development evidence
 
 At the audited source revision: eight Go tests, 21 Python tests and TypeScript typechecking passed. Go vet and shell syntax checks passed. Python lint reported three test-style issues; web build/lint failed because Next is absent; three Go files had formatting differences. No live multi-node, IPFS, browser, database or production integration was established.
-
-Reproduction commands and their limits are in the [verification record](docs/audits/2026-10-20-verification.md). Treat deployment scripts as experimental until the audit's blocking findings and deployment prerequisites are resolved.
 
 ## Licensing and participation
 

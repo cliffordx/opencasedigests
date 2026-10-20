@@ -71,6 +71,7 @@ out/
 *~
 .DS_Store
 Thumbs.db
+.omx
 
 # ---- IPFS local data ----
 .ipfs/
