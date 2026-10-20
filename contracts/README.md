@@ -1,5 +1,7 @@
 # Case Digestor Protocol — CosmWasm Smart Contracts (`contracts/`)
 
+> **Future concept only, 20 October 2026:** this is an empty workspace, not implemented contracts. Escrows and on-chain rubrics are deferred by the [revised roadmap](../docs/EXECUTIVE_ROADMAP.md); the layout and instructions below describe a possible future project.
+
 This directory houses the CosmWasm (`x/wasm`) smart contracts targeted for **Phase 2A (Federated Legal Commons)** of the Case Digestor Protocol.
 
 ---

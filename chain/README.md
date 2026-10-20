@@ -1,5 +1,7 @@
 # Case Digestor Protocol — Cosmos SDK Appchain (`chain/`)
 
+> **Prototype status, 20 October 2026:** the executing daemon is a CometBFT JSON application. The SDK decorator and protobufs below are not wired into a complete Cosmos application. Authorization, state commitments and persistence have blocking gaps. Read the [audit](../docs/audits/2026-10-20-independent-audit.md) before relying on these design claims.
+
 This directory houses the Cosmos SDK application chain (`casedigestord`), custom AnteHandlers, and Protobuf schema definitions for the **Case Digestor Protocol**.
 
 ---

@@ -1,5 +1,7 @@
 # Case Digestor Protocol — Web Client SDK & PWA (`web/`)
 
+> **Design sketch, 20 October 2026:** only a TypeScript helper exists. There is no Next.js application or passkey signer, and the helper's encoded payload does not interoperate with the current daemon. The example APIs below are illustrative and do not match the implemented exports. See the [audit](../docs/audits/2026-10-20-independent-audit.md); this is not a working integration guide.
+
 This directory provides the TypeScript client libraries and Next.js App Router progressive web application (PWA) for the **Case Digestor Protocol**.
 
 ---

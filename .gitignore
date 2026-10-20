@@ -4,6 +4,7 @@
 
 # ---- Project-specific ----
 docs/research/*
+docs/audits/*
 .AI_INSTRUCTIONS.md
 AGENTS.md
 

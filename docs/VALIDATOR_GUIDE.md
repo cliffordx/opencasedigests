@@ -1,5 +1,7 @@
 # Institutional Validator Guide: Case Digestor Protocol
 
+> **Historical, unverified runbook — 20 October 2026.** Do not treat these instructions as an accepted production deployment procedure. The current daemon is a prototype with blocking authorization and state-commitment defects; several described SDK/operational capabilities are absent. Institutional names and roles are illustrative, not confirmed participation. Consult the [audit](audits/2026-10-20-independent-audit.md), [verification record](audits/2026-10-20-verification.md), and [conditional federation gates](EXECUTIVE_ROADMAP.md) before using this material.
+
 Welcome to the **Case Digestor Network**. This guide outlines how law schools, legal aid clinics, bar chapters, and research institutions can set up, secure, and operate a federated validation node for the Philippine Legal Commons.
 
 ---

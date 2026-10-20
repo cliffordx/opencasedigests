@@ -1,5 +1,7 @@
 # Case Digestor Protocol — Technical Architecture Specification
 
+> **Historical design — status corrected 20 October 2026.** The implementation does not yet provide the Cosmos modules, authenticated signing, JCS serialization, persistence or integrated indexing described below. See the [independent audit](audits/2026-10-20-independent-audit.md) for current evidence and [ADR-001 proposal](ARCHITECTURE_V2_PROPOSAL.md) for the recommended next design. Institutional names below are prospective examples, not partners. This document is preserved as research history, not a deployment specification.
+
 **Document Version:** 1.0.0-draft  
 **Last Updated:** October 2026  
 **Status:** Phase 1A Implementation  
